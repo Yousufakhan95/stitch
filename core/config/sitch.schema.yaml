@@ -1,0 +1,53 @@
+# sitch.config schema (informal)
+
+version: 1 | integer required
+
+ledger_index: string optional   # e.g. docs/LEDGER_INDEX.md (workspace or server)
+
+# Single-client form (backward compatible)
+client:
+  id: string optional           # default "web"
+  root: string required
+  ledger: string                # default docs/STITCH_LEDGER.md
+  contracts_dir: string         # default docs/contracts
+  api_structure: string         # default docs/api-structure.md
+  skill: string                 # default sitch-client
+
+# Multi-client form (preferred when >1 client). If set, overrides `client`.
+clients:
+  - id: string required
+    root: string required
+    ledger: string
+    contracts_dir: string
+    api_structure: string
+    skill: string               # which specialist skill to invoke
+
+server:
+  id: string optional           # default "api"
+  root: string required
+  ledger: string
+  contracts_dir: string
+  api_structure: string
+  skill: string                 # default sitch-server
+
+# Named ledgers — keys under paths: are side ids (client id or server id)
+ledgers:
+  - id: string required
+    description: string optional
+    paths:
+      <side_id>: string         # ledger file relative to that side's root
+
+path_classes:
+  - id: string
+    description: string
+
+defaults:
+  server_first: boolean         # default true
+  require_tests: boolean        # default true
+  require_fingerprint_at_phase_boundary: boolean  # default true
+  client_pass: all | first      # default all
+
+# Environment overrides for scripts:
+#   SITCH_CLIENT_ROOT   (single-client scripts)
+#   SITCH_SERVER_ROOT
+#   SITCH_CONFIG        (path to sitch.yaml)

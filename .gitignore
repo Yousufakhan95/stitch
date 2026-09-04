@@ -1,0 +1,8 @@
+# Ignore local env / editor noise if this kit becomes a git repo
+.env
+.env.*
+!.env.example
+.DS_Store
+*.swp
+.idea/
+.vscode/

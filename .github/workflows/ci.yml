@@ -1,0 +1,26 @@
+name: sitch-ci
+
+on:
+  push:
+    paths:
+      - "examples/**"
+      - "core/skills/fingerprint-check/**"
+      - "core/scripts/**"
+  pull_request:
+    paths:
+      - "examples/**"
+      - "core/skills/fingerprint-check/**"
+      - "core/scripts/**"
+
+jobs:
+  fingerprint-tiny-dual:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fingerprint hello-v1
+        working-directory: examples/tiny-dual
+        run: |
+          chmod +x ../../core/skills/fingerprint-check/scripts/check-fingerprint.sh
+          export SITCH_CLIENT_ROOT="$PWD/client"
+          export SITCH_SERVER_ROOT="$PWD/server"
+          ../../core/skills/fingerprint-check/scripts/check-fingerprint.sh hello-v1.md

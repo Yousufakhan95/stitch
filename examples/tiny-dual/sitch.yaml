@@ -1,0 +1,22 @@
+version: 1
+
+client:
+  root: ./client
+  ledger: docs/STITCH_LEDGER.md
+  contracts_dir: docs/contracts
+  api_structure: docs/api-structure.md
+
+server:
+  root: ./server
+  ledger: docs/STITCH_LEDGER.md
+  contracts_dir: docs/contracts
+  api_structure: docs/api-structure.md
+
+path_classes:
+  - id: default
+    description: Standard request/response on the server process
+
+defaults:
+  server_first: true
+  require_tests: true
+  require_fingerprint_at_phase_boundary: true

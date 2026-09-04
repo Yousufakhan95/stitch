@@ -1,0 +1,76 @@
+# Sitch project config (example)
+#
+# Copy to sitch.yaml at your workspace root (or next to both repos).
+# Agents and scripts read these paths — do not hardcode product names in skills.
+#
+# Minimal: one `client` + one `server`.
+# Scale: `clients:` list, `ledgers:` registry, custom `skill` per side.
+# See docs/ledgers.md and docs/customizing.md.
+
+version: 1
+
+# Optional human index of ledger ids (recommended when you have more than one)
+ledger_index: docs/LEDGER_INDEX.md
+
+# --- Minimal shape (single web client) ---
+client:
+  id: web
+  root: ../my-client          # relative to this file, or absolute
+  ledger: docs/STITCH_LEDGER.md
+  contracts_dir: docs/contracts
+  api_structure: docs/api-structure.md
+  skill: sitch-client         # Cursor/Claude skill name for this side
+
+server:
+  id: api
+  root: ../my-server
+  ledger: docs/STITCH_LEDGER.md
+  contracts_dir: docs/contracts
+  api_structure: docs/api-structure.md
+  skill: sitch-server
+
+# --- Multiple clients (uncomment / adapt) ---
+# clients:
+#   - id: web
+#     root: ../my-web
+#     ledger: docs/STITCH_LEDGER.md
+#     contracts_dir: docs/contracts
+#     api_structure: docs/api-structure.md
+#     skill: sitch-client
+#   - id: mobile
+#     root: ../my-mobile
+#     ledger: docs/STITCH_LEDGER.md
+#     contracts_dir: docs/contracts
+#     api_structure: docs/api-structure.md
+#     skill: sitch-client-mobile
+
+# --- Multiple ledgers by domain (uncomment / adapt) ---
+# ledgers:
+#   - id: main
+#     description: Default catch-all
+#     paths:
+#       web: docs/STITCH_LEDGER.md
+#       api: docs/STITCH_LEDGER.md
+#       mobile: docs/STITCH_LEDGER.md
+#   - id: billing
+#     description: Plans and checkout
+#     paths:
+#       web: docs/ledgers/BILLING.md
+#       api: docs/ledgers/BILLING.md
+
+# Optional routing labels for your stack (replace freely)
+path_classes:
+  - id: default
+    description: Standard request/response on the server process
+  - id: async
+    description: Enqueue work; reply via bus/queue
+  - id: stream
+    description: Streaming or websocket frames
+
+defaults:
+  server_first: true          # new endpoints: server specialist before client(s)
+  require_tests: true
+  require_fingerprint_at_phase_boundary: true
+  # Which clients get a specialist pass when the slice doesn't list clients:
+  # all | first
+  client_pass: all

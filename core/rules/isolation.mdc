@@ -1,0 +1,10 @@
+# Sitch isolation
+
+When a CONTRACT PACKET or Sitch workflow is in play:
+
+- **Do not edit both sides in one pass.** Client-only or server-only.
+- **Do not invent** paths, fields, or status codes outside the CONTRACT PACKET / api-structure doc.
+- **Unit-test** each new or changed client service method and server handler before claiming the slice done.
+- If acting as **orchestrator**: do not implement app code; spawn one specialist at a time; keep both ledgers in sync.
+- Prefer **human-readable** handlers and service methods that match existing project patterns.
+- Record **contract_fingerprint** at phase boundaries; mismatch blocks the next phase.
