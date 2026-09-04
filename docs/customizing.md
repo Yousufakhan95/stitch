@@ -1,10 +1,10 @@
-# Customizing Sitch
+# Customizing Stitch
 
 Core stays thin. Your product’s conventions live in **config**, **extra skills**, and **rules** you add beside core — not by forking the idea of packets/ledgers.
 
-## 1. Edit `sitch.yaml` first
+## 1. Edit `stitch.yaml` first
 
-Copy `core/config/sitch.example.yaml` → `sitch.yaml` at your workspace root.
+Copy `core/config/stitch.example.yaml` → `stitch.yaml` at your workspace root.
 
 Adjust:
 
@@ -23,9 +23,9 @@ Agents should read this file instead of hardcoding repo names.
 Drop markdown rules into each side:
 
 ```text
-my-web/.cursor/rules/sitch-isolation.mdc     # from core
+my-web/.cursor/rules/stitch-isolation.mdc     # from core
 my-web/.cursor/rules/web-conventions.mdc     # yours
-my-api/.cursor/rules/sitch-isolation.mdc
+my-api/.cursor/rules/stitch-isolation.mdc
 my-api/.cursor/rules/api-error-codes.mdc     # yours
 ```
 
@@ -35,7 +35,7 @@ Examples of **your** rules:
 - “All public errors use `{ code, message }`”
 - “Mobile specialist must not touch Next.js app router”
 
-Keep Sitch isolation as the base; layer product rules on top.
+Keep Stitch isolation as the base; layer product rules on top.
 
 ## 3. Add or fork skills
 
@@ -44,9 +44,9 @@ Keep Sitch isolation as the base; layer product rules on top.
 Copy a core skill and rename:
 
 ```text
-core/skills/sitch-client/SKILL.md
-  → my-web/.cursor/skills/sitch-client/SKILL.md          (stock)
-  → my-mobile/.cursor/skills/sitch-client-mobile/SKILL.md (fork)
+core/skills/stitch-client/SKILL.md
+  → my-web/.cursor/skills/stitch-client/SKILL.md          (stock)
+  → my-mobile/.cursor/skills/stitch-client-mobile/SKILL.md (fork)
 ```
 
 In the fork, change only the “Where to work” / test commands / UI notes — keep CONTRACT/RESULT discipline.
@@ -57,10 +57,10 @@ Register in config:
 clients:
   - id: web
     root: ../my-web
-    skill: sitch-client
+    skill: stitch-client
   - id: mobile
     root: ../my-mobile
-    skill: sitch-client-mobile
+    skill: stitch-client-mobile
 ```
 
 Orchestrator prompt: “Follow skill `<skill>` for side `<id>`.”
@@ -71,10 +71,10 @@ Examples worth adding as **your** skills (not required in core):
 
 | Skill name | Use |
 |------------|-----|
-| `sitch-client-cli` | CLI / TUI consumer of the same API |
-| `sitch-client-admin` | Separate admin SPA |
-| `sitch-worker` | Async consumer that must honor the same envelope |
-| `sitch-docs` | OpenAPI / public docs only (no app code) |
+| `stitch-client-cli` | CLI / TUI consumer of the same API |
+| `stitch-client-admin` | Separate admin SPA |
+| `stitch-worker` | Async consumer that must honor the same envelope |
+| `stitch-docs` | OpenAPI / public docs only (no app code) |
 
 Pattern: one side root + obey CONTRACT + return RESULT + never edit other roots.
 
@@ -116,7 +116,7 @@ path_classes:
 
 ## 6. What not to customize away
 
-These are the product — changing them usually means you’re not using Sitch anymore:
+These are the product — changing them usually means you’re not using Stitch anymore:
 
 1. One specialist, one side per pass  
 2. CONTRACT PACKET is law (no invented fields)  

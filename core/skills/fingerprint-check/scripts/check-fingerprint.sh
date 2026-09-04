@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Compares SHA-256 of a canonical contract file between Sitch client and server.
+# Compares SHA-256 of a canonical contract file between Stitch client and server.
 # See ../SKILL.md for usage.
 set -euo pipefail
 
@@ -7,14 +7,14 @@ ARG="${1:?Usage: check-fingerprint.sh <contract-filename-or-relative-path>}"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Optional sitch.yaml next to cwd or via SITCH_CONFIG
-CONFIG="${SITCH_CONFIG:-}"
-if [[ -z "$CONFIG" && -f "./sitch.yaml" ]]; then
-  CONFIG="./sitch.yaml"
+# Optional stitch.yaml next to cwd or via STITCH_CONFIG
+CONFIG="${STITCH_CONFIG:-}"
+if [[ -z "$CONFIG" && -f "./stitch.yaml" ]]; then
+  CONFIG="./stitch.yaml"
 fi
 
-CLIENT_ROOT="${SITCH_CLIENT_ROOT:-}"
-SERVER_ROOT="${SITCH_SERVER_ROOT:-}"
+CLIENT_ROOT="${STITCH_CLIENT_ROOT:-}"
+SERVER_ROOT="${STITCH_SERVER_ROOT:-}"
 CLIENT_CONTRACTS="docs/contracts"
 SERVER_CONTRACTS="docs/contracts"
 
@@ -57,7 +57,7 @@ if [[ -n "$CONFIG" && -f "$CONFIG" ]]; then
 fi
 
 if [[ -z "$CLIENT_ROOT" || -z "$SERVER_ROOT" ]]; then
-  echo "Set SITCH_CLIENT_ROOT and SITCH_SERVER_ROOT, or provide sitch.yaml with client.root / server.root"
+  echo "Set STITCH_CLIENT_ROOT and STITCH_SERVER_ROOT, or provide stitch.yaml with client.root / server.root"
   exit 1
 fi
 

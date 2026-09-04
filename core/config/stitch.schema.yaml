@@ -1,4 +1,4 @@
-# sitch.config schema (informal)
+# stitch.config schema (informal)
 
 version: 1 | integer required
 
@@ -11,7 +11,7 @@ client:
   ledger: string                # default docs/STITCH_LEDGER.md
   contracts_dir: string         # default docs/contracts
   api_structure: string         # default docs/api-structure.md
-  skill: string                 # default sitch-client
+  skill: string                 # default stitch-client
 
 # Multi-client form (preferred when >1 client). If set, overrides `client`.
 clients:
@@ -28,7 +28,7 @@ server:
   ledger: string
   contracts_dir: string
   api_structure: string
-  skill: string                 # default sitch-server
+  skill: string                 # default stitch-server
 
 # Named ledgers — keys under paths: are side ids (client id or server id)
 ledgers:
@@ -48,6 +48,6 @@ defaults:
   client_pass: all | first      # default all
 
 # Environment overrides for scripts:
-#   SITCH_CLIENT_ROOT   (single-client scripts)
-#   SITCH_SERVER_ROOT
-#   SITCH_CONFIG        (path to sitch.yaml)
+#   STITCH_CLIENT_ROOT   (single-client scripts)
+#   STITCH_SERVER_ROOT
+#   STITCH_CONFIG        (path to stitch.yaml)

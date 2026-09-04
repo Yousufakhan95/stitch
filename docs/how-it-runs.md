@@ -1,24 +1,24 @@
-# How Sitch runs
+# How Stitch runs
 
-Sitch is **not a daemon**. Nothing “starts” in the background. A coding agent (Cursor, Claude Code, etc.) reads the skills and follows the workflow when you ask it to sitch a slice.
+Stitch is **not a daemon**. Nothing “starts” in the background. A coding agent (Cursor, Claude Code, etc.) reads the skills and follows the workflow when you ask it to stitch a slice.
 
 ```text
-You: "Sitch POST /api/widgets"
+You: "Stitch POST /api/widgets"
         │
         ▼
 ┌───────────────────┐
-│  sitch-orchestrator│  reads sitch.yaml → knows roots, ledgers, path_classes
+│  stitch-orchestrator│  reads stitch.yaml → knows roots, ledgers, path_classes
 └─────────┬─────────┘
           │ writes CONTRACT PACKET
           │ appends row to every ledger listed for this slice
           ▼
 ┌───────────────────┐
-│  sitch-server      │  edits server root only → RESULT PACKET
+│  stitch-server      │  edits server root only → RESULT PACKET
 └─────────┬─────────┘
           │ (optional deploy gate — ask human)
           ▼
 ┌───────────────────┐
-│  sitch-client      │  one pass per client side (web, mobile, …)
+│  stitch-client      │  one pass per client side (web, mobile, …)
 └─────────┬─────────┘
           │
           ▼
@@ -35,13 +35,14 @@ You: "Sitch POST /api/widgets"
 | Actor | Runs when | Does |
 |-------|-----------|------|
 | **You** | Anytime | Name the slice; approve deploys; say when a feature is “done enough” for E2E |
-| **Orchestrator skill** | You attach it / say “sitch” | Owns contract + ledgers; spawns one specialist at a time; never edits app code |
+| **Orchestrator skill** | You attach it / say “stitch” | Owns contract + ledgers; spawns one specialist at a time; never edits app code |
 | **Server skill** | Orchestrator hands off | Implements the slice in `server.root` only |
 | **Client skill** | After server (default) | Implements the slice in one `clients[].root` only |
 | **Fingerprint script** | Phase boundary | Proves contract bytes match across sides |
+| **Gate CLI** | Phase boundary / CI | Fingerprint + fails if `require_tests` and ledger test fields are empty |
 | **Pre-ship skill** | Before push | Reminds you to run that side’s tests/build |
 
-## Where `sitch.yaml` fits
+## Where `stitch.yaml` fits
 
 Config is the **map**, not the engine:
 
@@ -50,6 +51,8 @@ Config is the **map**, not the engine:
 - Your `path_classes` vocabulary (`default`, `async`, `stream`, or whatever your stack uses)
 - Defaults (server-first, require tests, fingerprint at phase boundary)
 
-Agents and scripts read it so skills stay product-agnostic. You edit YAML for your layout; you edit skills/rules for your conventions.
+`require_tests: true` is enforced by **`gate.sh`**, not by YAML alone.
+
+Agents and scripts read config so skills stay product-agnostic. You edit YAML for your layout; you edit skills/rules for your conventions.
 
 See [Ledgers](ledgers.md) and [Customizing](customizing.md).

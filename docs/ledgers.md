@@ -1,8 +1,8 @@
 # Ledgers
 
-A **ledger** is a markdown file that tracks Sitch slices: status, tests, contract fingerprint, wire deviations, and the pasted CONTRACT PACKET.
+A **ledger** is a markdown file that tracks Stitch slices: status, tests, contract fingerprint, wire deviations, and the pasted CONTRACT PACKET.
 
-Ledgers are **plain files in your repos**. Sitch does not host them.
+Ledgers are **plain files in your repos**. Stitch does not host them.
 
 ## Default layout (one ledger per side)
 
@@ -11,7 +11,7 @@ my-client/docs/STITCH_LEDGER.md
 my-server/docs/STITCH_LEDGER.md
 ```
 
-Declared in `sitch.yaml`:
+Declared in `stitch.yaml`:
 
 ```yaml
 client:
@@ -49,7 +49,7 @@ client/docs/ledgers/
 ```
 
 ```yaml
-# sitch.yaml
+# stitch.yaml
 version: 1
 
 server:
@@ -111,13 +111,13 @@ clients:
     ledger: docs/STITCH_LEDGER.md
     contracts_dir: docs/contracts
     api_structure: docs/api-structure.md
-    skill: sitch-client          # or your custom skill name
+    skill: stitch-client          # or your custom skill name
   - id: mobile
     root: ../my-mobile
     ledger: docs/STITCH_LEDGER.md
     contracts_dir: docs/contracts
     api_structure: docs/api-structure.md
-    skill: sitch-client-mobile   # custom specialist — see customizing.md
+    skill: stitch-client-mobile   # custom specialist — see customizing.md
 
 ledgers:
   - id: main
@@ -156,7 +156,7 @@ Keep a short index so humans and agents know which ledger to open:
 | billing | payments | docs/ledgers/BILLING.md | docs/ledgers/BILLING.md |
 ```
 
-Point `sitch.yaml` at it:
+Point `stitch.yaml` at it:
 
 ```yaml
 ledger_index: docs/LEDGER_INDEX.md
@@ -177,4 +177,4 @@ Use [`../core/templates/STITCH_LEDGER.md`](../core/templates/STITCH_LEDGER.md). 
 | Web + mobile | `clients:` list; shared or per-client ledger paths |
 | Experiments / spikes | Separate ledger id (`spike`) so main stays clean |
 
-Do **not** invent a ledger path mid-slice. Add it to `sitch.yaml` + `LEDGER_INDEX.md` first, then contract.
+Do **not** invent a ledger path mid-slice. Add it to `stitch.yaml` + `LEDGER_INDEX.md` first, then contract.

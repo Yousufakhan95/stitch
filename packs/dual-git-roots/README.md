@@ -6,7 +6,7 @@ Use when client and server are **sibling git repositories** (two remotes, two PR
 
 ```text
 workspace/
-  sitch.yaml          # roots point at ./my-client and ./my-server
+  stitch.yaml          # roots point at ./my-client and ./my-server
   my-client/          # git repo A
   my-server/          # git repo B
 ```

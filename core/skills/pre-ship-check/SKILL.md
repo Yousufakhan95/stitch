@@ -1,7 +1,7 @@
 ---
 name: pre-ship-check
 description: >-
-  Local pre-push gate for a Sitch-managed project — run the side's standard
+  Local pre-push gate for a Stitch-managed project — run the side's standard
   tests (and build if applicable) before pushing to a deploy-tracked branch.
   Use before shipping client or server changes.
 ---
@@ -12,7 +12,7 @@ Skills remind; CI should eventually enforce. Until then, run this before push to
 
 ## Client
 
-From the client root (`sitch.yaml` → `client.root`):
+From the client root (`stitch.yaml` → `client.root`):
 
 ```bash
 # adapt to the project — examples:
@@ -39,3 +39,4 @@ go vet ./...
 - Do not push known-red tests to deploy-tracked branches.
 - If you touched shared contracts, run **fingerprint-check** too.
 - Prefer adding the same commands to CI so this skill is a backup, not the only gate.
+- After tests + ledger updates, run **`./core/scripts/gate.sh --contract <file>`** so `require_tests` is actually checked (see `stitch-gate` skill).

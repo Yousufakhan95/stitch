@@ -6,7 +6,7 @@ Use when client and server are **packages in one git repository**.
 
 ```text
 repo/
-  sitch.yaml
+  stitch.yaml
   packages/client/
   packages/server/
   docs/contracts/     # optional single source — still copy or link into both packages if you dual-ledger

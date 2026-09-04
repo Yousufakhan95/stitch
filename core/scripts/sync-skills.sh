@@ -5,9 +5,9 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CORE="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-CONFIG="${SITCH_CONFIG:-./sitch.yaml}"
-CLIENT_ROOT="${SITCH_CLIENT_ROOT:-}"
-SERVER_ROOT="${SITCH_SERVER_ROOT:-}"
+CONFIG="${STITCH_CONFIG:-./stitch.yaml}"
+CLIENT_ROOT="${STITCH_CLIENT_ROOT:-}"
+SERVER_ROOT="${STITCH_SERVER_ROOT:-}"
 
 if [[ -f "$CONFIG" ]]; then
   in_client=0
@@ -36,19 +36,19 @@ SERVER_ROOT="${2:-$SERVER_ROOT}"
 
 if [[ -z "$CLIENT_ROOT" || -z "$SERVER_ROOT" ]]; then
   echo "Usage: sync-skills.sh [client-root] [server-root]"
-  echo "Or set sitch.yaml / SITCH_CLIENT_ROOT / SITCH_SERVER_ROOT"
+  echo "Or set stitch.yaml / STITCH_CLIENT_ROOT / STITCH_SERVER_ROOT"
   exit 1
 fi
 
 sync_one() {
   local dest_root="$1"
   mkdir -p "$dest_root/.cursor/skills" "$dest_root/.claude/skills" "$dest_root/.cursor/rules"
-  for skill in sitch-orchestrator sitch-client sitch-server fingerprint-check pre-ship-check; do
+  for skill in stitch-orchestrator stitch-client stitch-server fingerprint-check pre-ship-check stitch-gate; do
     rm -rf "$dest_root/.cursor/skills/$skill" "$dest_root/.claude/skills/$skill"
     cp -R "$CORE/skills/$skill" "$dest_root/.cursor/skills/$skill"
     cp -R "$CORE/skills/$skill" "$dest_root/.claude/skills/$skill"
   done
-  cp "$CORE/rules/isolation.mdc" "$dest_root/.cursor/rules/sitch-isolation.mdc"
+  cp "$CORE/rules/isolation.mdc" "$dest_root/.cursor/rules/stitch-isolation.mdc"
   echo "synced → $dest_root"
 }
 

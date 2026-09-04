@@ -1,6 +1,6 @@
 # STITCH LEDGER
 
-> Maintained by the **sitch-orchestrator**. Specialists only update their side's test/status fields via RESULT packets; the orchestrator reconciles both copies.
+> Maintained by the **stitch-orchestrator**. Specialists only update their side's test/status fields via RESULT packets; the orchestrator reconciles both copies.
 
 ## Active
 

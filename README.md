@@ -1,17 +1,17 @@
-# Sitch
+# Stitch
 
 **Lightweight boundary harness for agentic coding.**
 
 Contracts. One side at a time. Ledgers. Fingerprints.  
 Not a runtime. Not an agent OS. Not another framework to learn.
 
-Sitch is a small set of **skills + templates + scripts** that keep AI coding agents from inventing API fields, editing both sides of a split in one pass, or shipping without a recorded wire lock.
+Stitch is a small set of **skills + templates + scripts** that keep AI coding agents from inventing API fields, editing both sides of a split in one pass, or shipping without a recorded wire lock.
 
 ```text
 you ask → orchestrator (contract + ledger) → server specialist → client specialist(s) → fingerprint → next slice
 ```
 
-Nothing runs in the background. Agents read the skills; `sitch.yaml` tells them where your sides and ledgers live.
+Nothing runs in the background. Agents read the skills; `stitch.yaml` tells them where your sides and ledgers live.
 
 ## Quick start — what you do
 
@@ -23,7 +23,7 @@ Nothing runs in the background. Agents read the skills; `sitch.yaml` tells them 
 
    Or manually: copy `core/skills/` → each side’s `.cursor/skills/` and `.claude/skills/`, copy `core/rules/isolation.mdc`, copy ledger/api templates into `docs/`.
 
-2. **Edit `sitch.yaml`** (created next to the script cwd, or copy from `core/config/sitch.example.yaml`)
+2. **Edit `stitch.yaml`** (created next to the script cwd, or copy from `core/config/stitch.example.yaml`)
 
    - Set `client.root` / `server.root` (or a `clients:` list for web + mobile + …)
    - Confirm `ledger`, `contracts_dir`, `api_structure` paths
@@ -31,32 +31,38 @@ Nothing runs in the background. Agents read the skills; `sitch.yaml` tells them 
 
 3. **Open the workspace in Cursor / Claude Code** so those skills load.
 
-4. **Sitch a slice** — e.g. *“Sitch POST /api/widgets using the orchestrator skill.”*
+4. **Stitch a slice** — e.g. *“Stitch POST /api/widgets using the orchestrator skill.”*
 
-   The agent should: write a CONTRACT PACKET → update ledgers → run **server** specialist only → then **client** specialist(s) → run fingerprint at the phase boundary.
+   The agent should: write a CONTRACT PACKET → update ledgers → run **server** specialist only → then **client** specialist(s) → run **gate** (fingerprint + ledger test evidence) at the phase boundary.
 
-5. **Before you push**, use the pre-ship skill (or your CI) so tests aren’t vibes.
+5. **Before you push**, run real tests on each side, then:
 
-Try the docs-only demo first: [`examples/tiny-dual`](examples/tiny-dual) + `check-fingerprint.sh`.
+   ```bash
+   ./core/scripts/gate.sh --contract <locked-contract.md>
+   ```
+
+   `require_tests: true` is enforced here (non-empty ledger test fields), not by hope.
+
+Try the docs-only demo first: [`examples/tiny-dual`](examples/tiny-dual).
 
 ## How it runs (flow)
 
 ```text
 ┌─────────────────────────────────────────────────────────┐
-│ sitch.yaml = map of roots, ledgers, skills, path_classes│
+│ stitch.yaml = map of roots, ledgers, skills, path_classes│
 └─────────────────────────────────────────────────────────┘
                           │
-You: "Sitch GET /api/hello"
+You: "Stitch GET /api/hello"
                           ▼
-              sitch-orchestrator
+              stitch-orchestrator
                  │ writes CONTRACT
                  │ appends ledger row(s)
                  ▼
-              sitch-server  (server.root only) → RESULT
+              stitch-server  (server.root only) → RESULT
                  ▼
-              sitch-client  (each clients[].root) → RESULT
+              stitch-client  (each clients[].root) → RESULT
                  ▼
-              check-fingerprint.sh → MATCH?
+              gate.sh (fingerprint + require_tests ledger evidence)
                  ▼
               record fingerprint in ledger(s) → slice_done
 ```
@@ -64,35 +70,36 @@ You: "Sitch GET /api/hello"
 | Piece | What it is |
 |-------|------------|
 | **Orchestrator** | Coordinates only — no app code edits |
-| **Specialists** | One side per pass (`sitch-server`, `sitch-client`, or your forks) |
+| **Specialists** | One side per pass (`stitch-server`, `stitch-client`, or your forks) |
 | **CONTRACT PACKET** | Law for the slice — no invented fields |
 | **Ledger(s)** | Markdown status files **in your repos** — see [docs/ledgers.md](docs/ledgers.md) |
-| **`sitch.yaml`** | Config map — paths and options, not a runtime |
+| **`stitch.yaml`** | Config map — paths and options, not a runtime |
 | **Fingerprint** | SHA-256 proves both sides’ contract files match |
+| **Gate** | CLI that fails on MISMATCH or empty test fields when `require_tests: true` |
 
 Full walkthrough: [docs/how-it-runs.md](docs/how-it-runs.md).
 
-## What `sitch.yaml` is for
+## What `stitch.yaml` is for
 
 Config answers:
 
 - Where is the server? Where are the clients?
 - Which file is the ledger on each side? (or which **named** ledgers — billing vs chat)
-- Which skill name to invoke per side (`sitch-client` vs `sitch-client-mobile`)
+- Which skill name to invoke per side (`stitch-client` vs `stitch-client-mobile`)
 - What do `path_class` labels mean in *this* product?
 
 It does **not** execute agents. It’s the shared map so skills stay generic and your layout stays yours.
 
 ## Customize for your product
 
-Sitch is meant to be adjusted:
+Stitch is meant to be adjusted:
 
 | You want… | Do this |
 |-----------|---------|
 | Web + mobile + API | Use `clients:` in YAML; one specialist pass per client — [customizing](docs/customizing.md) |
 | Domain ledgers | Add `ledgers:` + `docs/LEDGER_INDEX.md` — [ledgers](docs/ledgers.md) |
-| Different client conventions | Fork `sitch-client` → e.g. `sitch-client-mobile`; set `skill:` on that client |
-| Always-on team rules | Add `.cursor/rules/*.mdc` beside `sitch-isolation` |
+| Different client conventions | Fork `stitch-client` → e.g. `stitch-client-mobile`; set `skill:` on that client |
+| Always-on team rules | Add `.cursor/rules/*.mdc` beside `stitch-isolation` |
 | Queue / WS / GraphQL | Extend `path_classes`; teach specialists in skill text |
 | Monorepo vs two git repos | See `packs/monorepo` or `packs/dual-git-roots` |
 

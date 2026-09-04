@@ -2,18 +2,18 @@
 name: fingerprint-check
 description: >-
   Computes and compares SHA-256 fingerprints of a canonical contract file across
-  Sitch client and server roots. Use at phase boundaries, when verifying a
+  Stitch client and server roots. Use at phase boundaries, when verifying a
   contract lock, or when filling contract_fingerprint / wire_deviations in a ledger.
 ---
 
 # Fingerprint Check
 
-Sitch requires, at every phase boundary, that the canonical contract file be **byte-identical** across client and server, verified by SHA-256 and recorded in both ledgers.
+Stitch requires, at every phase boundary, that the canonical contract file be **byte-identical** across client and server, verified by SHA-256 and recorded in both ledgers.
 
 ## How to run
 
 ```bash
-# from the sitch kit, or after init-project copied scripts into a project
+# from the stitch kit, or after init-project copied scripts into a project
 ./core/skills/fingerprint-check/scripts/check-fingerprint.sh <contract-filename>
 ```
 
@@ -23,13 +23,13 @@ Example:
 ./core/skills/fingerprint-check/scripts/check-fingerprint.sh hello-v1.md
 ```
 
-Paths resolve from `sitch.yaml` or env:
+Paths resolve from `stitch.yaml` or env:
 
 | Env | Meaning |
 |-----|---------|
-| `SITCH_CLIENT_ROOT` | Client project root |
-| `SITCH_SERVER_ROOT` | Server project root |
-| `SITCH_CONFIG` | Optional path to `sitch.yaml` |
+| `STITCH_CLIENT_ROOT` | Client project root |
+| `STITCH_SERVER_ROOT` | Server project root |
+| `STITCH_CONFIG` | Optional path to `stitch.yaml` |
 
 Bare filename → `{contracts_dir}/<file>` (default `docs/contracts/`).  
 Path containing `/` → relative to each side's root.

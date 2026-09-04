@@ -1,8 +1,8 @@
 # Why not heavier?
 
-## What Sitch is not
+## What Stitch is not
 
-| Heavy approach | Sitch |
+| Heavy approach | Stitch |
 |----------------|-------|
 | Custom agent runtime / orchestrator server | Skills + scripts agents already run |
 | Plugin marketplace and SDK lock-in | Copy markdown + bash into your repo |
@@ -16,10 +16,10 @@
 - You need org-wide agent policy servers  
 - Your product *is* the agent platform  
 
-Sitch is for **teams shipping apps with AI coding assistants**, not for building the assistant itself.
+Stitch is for **teams shipping apps with AI coding assistants**, not for building the assistant itself.
 
 ## The lightweight bet
 
 Most FE/BE drift and agent thrash comes from missing **shared wire law** and missing **isolation**, not from missing a new runtime.
 
-Sitch ships only that: packets, roles, ledger, fingerprint. Everything else is a pack or your stack.
+Stitch ships only that: packets, roles, ledger, fingerprint. Everything else is a pack or your stack.

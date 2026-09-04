@@ -20,7 +20,7 @@
 slice_id: <feature>/<METHOD>_<path_slug>
 method: GET|POST|PATCH|PUT|DELETE|WS
 path: /api/...
-path_class: <from sitch.yaml or "default">
+path_class: <from stitch.yaml or "default">
 auth: required|none
 
 ### Request
@@ -68,11 +68,11 @@ If `wire_deviations` is not `none`, orchestrator amends the contract before the 
 **Orchestrator → server**
 
 - Full CONTRACT PACKET  
-- “Edit only the server root from `sitch.yaml`. Do not touch the client.”  
-- “Follow `sitch-server` skill. Return a RESULT PACKET.”
+- “Edit only the server root from `stitch.yaml`. Do not touch the client.”  
+- “Follow `stitch-server` skill. Return a RESULT PACKET.”
 
 **Orchestrator → client**
 
 - Same CONTRACT PACKET  
 - Server RESULT (if shapes adjusted, amend contract first)  
-- “Edit only the client root. Follow `sitch-client`. Return RESULT.”
+- “Edit only the client root. Follow `stitch-client`. Return RESULT.”

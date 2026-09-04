@@ -1,4 +1,4 @@
-name: sitch-ci
+name: stitch-ci
 
 on:
   push:
@@ -13,14 +13,41 @@ on:
       - "core/scripts/**"
 
 jobs:
-  fingerprint-tiny-dual:
+  fingerprint-and-gate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Fingerprint hello-v1
+
+      - name: chmod scripts
+        run: chmod +x core/skills/fingerprint-check/scripts/check-fingerprint.sh core/scripts/gate.sh
+
+      - name: Fingerprint MATCH (hello-v1)
         working-directory: examples/tiny-dual
         run: |
-          chmod +x ../../core/skills/fingerprint-check/scripts/check-fingerprint.sh
-          export SITCH_CLIENT_ROOT="$PWD/client"
-          export SITCH_SERVER_ROOT="$PWD/server"
           ../../core/skills/fingerprint-check/scripts/check-fingerprint.sh hello-v1.md
+
+      - name: Fingerprint MISMATCH exits non-zero
+        working-directory: examples/tiny-dual
+        run: |
+          set -euo pipefail
+          FP="$GITHUB_WORKSPACE/core/skills/fingerprint-check/scripts/check-fingerprint.sh"
+          tmp="$(mktemp -d)"
+          cp -R "$PWD/." "$tmp/tiny-dual"
+          echo "" >> "$tmp/tiny-dual/client/docs/contracts/hello-v1.md"
+          echo "drift-$(date -u +%s)" >> "$tmp/tiny-dual/client/docs/contracts/hello-v1.md"
+          cd "$tmp/tiny-dual"
+          set +e
+          "$FP" hello-v1.md
+          rc=$?
+          set -e
+          if [[ "$rc" -eq 2 ]]; then
+            echo "ok: MISMATCH returned exit 2"
+            exit 0
+          fi
+          echo "expected exit 2 on MISMATCH, got $rc" >&2
+          exit 1
+
+      - name: Gate PASS (fingerprint + require_tests ledger evidence)
+        working-directory: examples/tiny-dual
+        run: |
+          ../../core/scripts/gate.sh --contract hello-v1.md

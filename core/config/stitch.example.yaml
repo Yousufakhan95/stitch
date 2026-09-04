@@ -1,6 +1,6 @@
-# Sitch project config (example)
+# Stitch project config (example)
 #
-# Copy to sitch.yaml at your workspace root (or next to both repos).
+# Copy to stitch.yaml at your workspace root (or next to both repos).
 # Agents and scripts read these paths — do not hardcode product names in skills.
 #
 # Minimal: one `client` + one `server`.
@@ -19,7 +19,7 @@ client:
   ledger: docs/STITCH_LEDGER.md
   contracts_dir: docs/contracts
   api_structure: docs/api-structure.md
-  skill: sitch-client         # Cursor/Claude skill name for this side
+  skill: stitch-client         # Cursor/Claude skill name for this side
 
 server:
   id: api
@@ -27,7 +27,7 @@ server:
   ledger: docs/STITCH_LEDGER.md
   contracts_dir: docs/contracts
   api_structure: docs/api-structure.md
-  skill: sitch-server
+  skill: stitch-server
 
 # --- Multiple clients (uncomment / adapt) ---
 # clients:
@@ -36,13 +36,13 @@ server:
 #     ledger: docs/STITCH_LEDGER.md
 #     contracts_dir: docs/contracts
 #     api_structure: docs/api-structure.md
-#     skill: sitch-client
+#     skill: stitch-client
 #   - id: mobile
 #     root: ../my-mobile
 #     ledger: docs/STITCH_LEDGER.md
 #     contracts_dir: docs/contracts
 #     api_structure: docs/api-structure.md
-#     skill: sitch-client-mobile
+#     skill: stitch-client-mobile
 
 # --- Multiple ledgers by domain (uncomment / adapt) ---
 # ledgers:

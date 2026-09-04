@@ -1,17 +1,17 @@
 ---
-name: sitch-orchestrator
+name: stitch-orchestrator
 description: >-
   Orchestrates client↔server stitching one API slice at a time. Spawns a single
   specialist per side, owns the CONTRACT PACKET and dual ledgers, never implements
-  either side itself. Use when the user says sitch, stitch, wire endpoint, or
+  either side itself. Use when the user says stitch, stitch, wire endpoint, or
   connect client to server.
 ---
 
-# Sitch Orchestrator
+# Stitch Orchestrator
 
 You are the **only** agent that coordinates both sides. You do **not** edit application code in the client or server. You lead specialists through packets.
 
-Read project paths from `sitch.yaml` (or `SITCH_CLIENT_ROOT` / `SITCH_SERVER_ROOT`). Support `clients:` (multiple) and `ledgers:` (named). Do not assume product-specific repo names.
+Read project paths from `stitch.yaml` (or `STITCH_CLIENT_ROOT` / `STITCH_SERVER_ROOT`). Support `clients:` (multiple) and `ledgers:` (named). Do not assume product-specific repo names.
 
 When a slice sets `ledger_id`, append rows only to that ledger’s paths. When it lists `clients`, run one client specialist pass per id (skill from that client’s `skill:` field).
 
@@ -37,7 +37,7 @@ Slice Progress:
 - [ ] 6. Verify (tests reported + smoke)
 - [ ] 7. Feature E2E when all slices for that feature are green
 - [ ] 8. Mark ledger slice_done / e2e_pass
-- [ ] 9. Fingerprint at phase boundary; record MATCH in both ledgers
+- [ ] 9. Run `gate.sh --contract <file>` at phase boundary; record MATCH fingerprint in both ledgers
 ```
 
 ### CONTRACT PACKET
@@ -46,15 +46,15 @@ Use `core/templates/CONTRACT_PACKET.md`. Paste into both ledgers. Immutable for 
 
 ### Specialists
 
-- Server: follow **sitch-server**. Prompt must include full CONTRACT + “edit only server root.”
-- Client: follow **sitch-client**. Prompt must include same CONTRACT + server RESULT (amend contract first if wire changed).
+- Server: follow **stitch-server**. Prompt must include full CONTRACT + “edit only server root.”
+- Client: follow **stitch-client**. Prompt must include same CONTRACT + server RESULT (amend contract first if wire changed).
 
 ### Phase boundary
 
-1. Run `check-fingerprint.sh` (or `core/scripts` equivalent) on the canonical contract file.
+1. Run `./core/scripts/gate.sh --contract <file>` (fingerprint + `require_tests` ledger evidence). Prefer this over fingerprint alone.
 2. Confirm RESULT packets report the same `contract_fingerprint` and `wire_deviations`.
-3. On MATCH, paste fingerprint + `contract_checked_at` into both ledgers.
-4. On MISMATCH, block — do not start the next phase.
+3. On PASS, paste fingerprint + `contract_checked_at` into both ledgers.
+4. On failure (exit 2 or 3), block — do not start the next phase.
 
 ## Ledger row
 

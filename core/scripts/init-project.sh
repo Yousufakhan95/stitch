@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Initialize a client + server project with Sitch core templates and skills.
+# Initialize a client + server project with Stitch core templates and skills.
 set -euo pipefail
 
 CLIENT="${1:?Usage: init-project.sh <client-root> <server-root>}"
@@ -12,12 +12,12 @@ KIT="$(cd "$CORE/.." && pwd)"
 copy_skills() {
   local dest_root="$1"
   mkdir -p "$dest_root/.cursor/skills" "$dest_root/.claude/skills" "$dest_root/.cursor/rules"
-  for skill in sitch-orchestrator sitch-client sitch-server fingerprint-check pre-ship-check; do
+  for skill in stitch-orchestrator stitch-client stitch-server fingerprint-check pre-ship-check stitch-gate; do
     rm -rf "$dest_root/.cursor/skills/$skill" "$dest_root/.claude/skills/$skill"
     cp -R "$CORE/skills/$skill" "$dest_root/.cursor/skills/$skill"
     cp -R "$CORE/skills/$skill" "$dest_root/.claude/skills/$skill"
   done
-  cp "$CORE/rules/isolation.mdc" "$dest_root/.cursor/rules/sitch-isolation.mdc"
+  cp "$CORE/rules/isolation.mdc" "$dest_root/.cursor/rules/stitch-isolation.mdc"
 }
 
 scaffold_side() {
@@ -37,7 +37,7 @@ scaffold_side "$SERVER"
 
 # workspace config next to both (parent of client if siblings, else cwd)
 CONFIG_DIR="$(pwd)"
-cat > "$CONFIG_DIR/sitch.yaml" <<EOF
+cat > "$CONFIG_DIR/stitch.yaml" <<EOF
 version: 1
 
 client:
@@ -64,14 +64,18 @@ EOF
 
 mkdir -p "$CONFIG_DIR/scripts"
 cp "$CORE/skills/fingerprint-check/scripts/check-fingerprint.sh" "$CONFIG_DIR/scripts/check-fingerprint.sh"
+cp "$SCRIPT_DIR/gate.sh" "$CONFIG_DIR/scripts/gate.sh"
 chmod +x "$CONFIG_DIR/scripts/check-fingerprint.sh" \
+  "$CONFIG_DIR/scripts/gate.sh" \
   "$CORE/skills/fingerprint-check/scripts/check-fingerprint.sh" \
   "$SCRIPT_DIR/init-project.sh" \
-  "$SCRIPT_DIR/sync-skills.sh" 2>/dev/null || true
+  "$SCRIPT_DIR/sync-skills.sh" \
+  "$SCRIPT_DIR/gate.sh" 2>/dev/null || true
 
-echo "Sitch initialized."
+echo "Stitch initialized."
 echo "  client: $CLIENT"
 echo "  server: $SERVER"
-echo "  config: $CONFIG_DIR/sitch.yaml"
+echo "  config: $CONFIG_DIR/stitch.yaml"
+echo "  gate:   $CONFIG_DIR/scripts/gate.sh --contract <file>"
 echo "Copy skills are in .cursor/skills and .claude/skills on both sides."
 echo "Kit reference: $KIT"

@@ -1,7 +1,7 @@
 ## CONTRACT
 slice_id: <feature>/<METHOD>_<path_slug>
 ledger_id: main
-clients: [web]                    # side ids from sitch.yaml; omit = all / first per defaults
+clients: [web]                    # side ids from stitch.yaml; omit = all / first per defaults
 method: GET|POST|PATCH|PUT|DELETE|WS
 path: /api/...
 path_class: default
