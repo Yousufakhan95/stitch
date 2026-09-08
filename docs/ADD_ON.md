@@ -96,7 +96,7 @@ Put the table in `stitch.yaml` or in each microservice skill. Orchestrator picks
 
 ## 5. Multi-ledger with many services
 
-Same as [HOW_TO_USE.md](HOW_TO_USE.md): register `ledgers:` paths **per side id**. A billing slice might touch `web` + `users` ledgers only — don’t force calendar’s ledger to take a row.
+Same as the README multi-ledger section: register `ledgers:` paths **per side id**. A billing slice might touch `web` + `users` ledgers only — don’t force calendar’s ledger to take a row.
 
 ## 6. What not to do
 

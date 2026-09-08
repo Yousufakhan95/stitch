@@ -4,7 +4,7 @@ description: >-
   Coordinates stitching one API slice across client and server sides. Owns the
   CONTRACT PACKET and ledgers; never edits app code. Use when the user says
   stitch, wire endpoint, or connect client to server. For microservices / extra
-  skills see docs/ADD_ON.md.
+  skills see docs/ADD_ON.md. Usage is in the repo README.
 ---
 
 # Stitch Orchestrator
