@@ -1,10 +1,7 @@
 # Stitch isolation
 
-When a CONTRACT PACKET or Stitch workflow is in play:
-
-- **Do not edit both sides in one pass.** Client-only or server-only.
-- **Do not invent** paths, fields, or status codes outside the CONTRACT PACKET / api-structure doc.
-- **Unit-test** each new or changed client service method and server handler before claiming the slice done.
-- If acting as **orchestrator**: do not implement app code; spawn one specialist at a time; keep both ledgers in sync.
-- Prefer **human-readable** handlers and service methods that match existing project patterns.
-- Record **contract_fingerprint** at phase boundaries; mismatch blocks the next phase.
+- Edit **one side per pass**, never both.
+- Do **not invent** paths, fields, or status codes outside the CONTRACT PACKET.
+- Test what you changed before claiming done.
+- Orchestrator: no app code; keep ledger rows aligned for the active slice.
+- Prefer clear code that matches the existing project.

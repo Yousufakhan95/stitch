@@ -1,12 +1,11 @@
 ## RESULT
 slice_id:
-repo: client|server
+repo: client|server|<side_id>
 status: done|blocked
 files_changed:
-tests_run: <commands>
+tests_run:
 tests_passed: true|false
-contract_fingerprint: <sha256 or n/a>
-wire_deviations: none|<exact list>
+wire_deviations: none|<list>
 notes:
 deploy_needed: true|false
 blocked_reason:

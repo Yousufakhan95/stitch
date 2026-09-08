@@ -1,53 +1,26 @@
-# stitch.config schema (informal)
+# Minimal schema (informal)
 
-version: 1 | integer required
+version: 1
+ledger_index: string optional
 
-ledger_index: string optional   # e.g. docs/LEDGER_INDEX.md (workspace or server)
-
-# Single-client form (backward compatible)
 client:
-  id: string optional           # default "web"
-  root: string required
-  ledger: string                # default docs/STITCH_LEDGER.md
-  contracts_dir: string         # default docs/contracts
-  api_structure: string         # default docs/api-structure.md
-  skill: string                 # default stitch-client
-
-# Multi-client form (preferred when >1 client). If set, overrides `client`.
-clients:
-  - id: string required
-    root: string required
-    ledger: string
-    contracts_dir: string
-    api_structure: string
-    skill: string               # which specialist skill to invoke
-
-server:
-  id: string optional           # default "api"
+  id: string optional
   root: string required
   ledger: string
-  contracts_dir: string
-  api_structure: string
-  skill: string                 # default stitch-server
+  skill: string
 
-# Named ledgers — keys under paths: are side ids (client id or server id)
+server:
+  id: string optional
+  root: string required
+  ledger: string
+  skill: string
+
+clients: list of { id, root, ledger, skill }   # optional
+servers: list of { id, root, ledger, skill }   # optional
+
 ledgers:
-  - id: string required
-    description: string optional
-    paths:
-      <side_id>: string         # ledger file relative to that side's root
-
-path_classes:
   - id: string
-    description: string
+    paths: map of side_id → relative ledger path
 
 defaults:
-  server_first: boolean         # default true
-  require_tests: boolean        # default true
-  require_fingerprint_at_phase_boundary: boolean  # default true
-  client_pass: all | first      # default all
-
-# Environment overrides for scripts:
-#   STITCH_CLIENT_ROOT   (single-client scripts)
-#   STITCH_SERVER_ROOT
-#   STITCH_CONFIG        (path to stitch.yaml)
+  server_first: boolean
